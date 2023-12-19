@@ -32,45 +32,62 @@ const router = createRouter({
     {
       path: '/orders',
       name: 'orders',
-      component: ()=>import('@/views/OrdersView.vue'),
+      component: () => import('@/views/OrdersView.vue'),
       meta: {
-        requiresAuth : true
+        requiresAuth: true
       }
     },
     {
       path: '/register',
       name: 'register',
-      component: ()=>import('@/views/RegisterView.vue')
+      component: () => import('@/views/RegisterView.vue')
     },
     {
       path: '/login',
       name: 'login',
-      component: ()=>import('@/views/LoginView.vue')
-    },{
+      component: () => import('@/views/LoginView.vue')
+    }, {
       path: '/admin',
       name: 'admin',
-      component: ()=>import('@/views/admin/AdminHomeView.vue')
+      component: () => import('@/views/admin/Admin.vue'),
+      children: [
+        {
+          path: '/admin/customize-homepage',
+          name: 'admin-customize-homepage',
+          component: () => import('@/views/admin/HomepageView.vue'),
+        },
+        {
+          path: '/admin/general',
+          name: 'admin-general',
+          component: () => import('@/views/admin/GeneralView.vue'),
+        },
+        {
+          path: '/admin/products',
+          name: 'admin-products',
+          component: () => import('@/views/admin/ProductsView.vue'),
+        }
+      ]
     }
   ]
 })
 
-const getCurrentUser = ()=>{
-  return new Promise((resolve, reject)=>{
-    const removeListener = onAuthStateChanged(getAuth(), (user)=>{
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(getAuth(), (user) => {
       removeListener()
       resolve(user)
     }, reject)
   })
 }
 
-router.beforeEach(async (to, from, next)=>{
-  if(to.matched.some((record)=>record.meta.requiresAuth)){
-    if(await getCurrentUser()){
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await getCurrentUser()) {
       next()
-    }else{
+    } else {
       Swal.fire({
         title: 'You have no access!',
-        text:'Please login first.',
+        text: 'Please login first.',
         color: 'white',
         icon: 'info',
         background: '#475569',
@@ -79,7 +96,7 @@ router.beforeEach(async (to, from, next)=>{
       })
       next(false)
     }
-  }else{
+  } else {
     next()
   }
 })

@@ -6,6 +6,7 @@ import Cart from './components/Cart.vue'
 import FooterMain from './components/FooterMain.vue'
 import { useCartStore } from './stores/cart'
 import { useAuthStore } from './stores/auth'
+import { or } from 'firebase/firestore'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()
@@ -22,18 +23,20 @@ watch(() => cartStore.isToggled, (newVal) => {
 </script>
 
 <template>
-  
-  <nav v-if="$route.name != 'admin'" class="h-[69.6px]">
+  <nav v-if="!$route.path.startsWith('/admin')" class="h-[69.6px]">
     <Navbar />
   </nav>
 
-  <div class="grid transition-all duration-300" :class="grid_cols">
+  <div v-if="!$route.path.startsWith('/admin')" class="grid transition-all duration-300" :class="grid_cols">
     <div>
       <RouterView />
-      <FooterMain v-if="$route.name != 'admin'" />
+      <FooterMain />
     </div>
     <Cart />
   </div>
+
+  <!-- admin -->
+  <RouterView v-if="$route.path.startsWith('/admin')" />
 </template>
 
 <style scoped></style>

@@ -21,7 +21,7 @@ import { RouterLink } from 'vue-router';
                             </header>
 
                             <RouterLink :to="{name:'products'}"
-                                class="mt-8 inline-block rounded-xl border border-green-500 bg-green-500 hover:bg-green-700 px-12 py-3 text-sm font-medium text-white hover:text-green-500 transition hover:shadow focus:outline-none">
+                                class="mt-8 inline-block rounded-xl border border-green-500 bg-green-500 hover:bg-green-700 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none">
                                 Shop All
                             </RouterLink>
                         </div>
