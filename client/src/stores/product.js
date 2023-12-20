@@ -8,7 +8,7 @@ import { db } from '@/firebase'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
-    loading: true
+    loading: true,
   }),
   actions: {
     async getProducts() {
